@@ -1,0 +1,4 @@
+.cell {
+    display: table-cell;
+    vertical-align: inherit;
+}
