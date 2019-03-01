@@ -64,9 +64,6 @@ function checkHorizontal(state) {
                 && cell === cells[indexOf(r, c + 1)]
                 && cell === cells[indexOf(r, c + 2)]
                 && cell === cells[indexOf(r, c + 3)]) {
-                console.log('row: ', r + 1);
-                console.log('col: ', c + 1);
-                console.log('horizontal');
                 return cell;
             }
         }
@@ -82,9 +79,6 @@ function checkVertical(state) {
                 && cell === cells[indexOf(r + 1, c)]
                 && cell === cells[indexOf(r + 2, c)]
                 && cell === cells[indexOf(r + 3, c)]) {
-                console.log('row: ', r + 1);
-                console.log('col: ', c + 1);
-                console.log('vertical');
                 return cell;
             }
         }
@@ -100,9 +94,6 @@ function checkDiagonalLeft(state) {
                 && cell === cells[indexOf(r - 1, c - 1)]
                 && cell === cells[indexOf(r - 2, c - 2)]
                 && cell === cells[indexOf(r - 3, c - 3)]) {
-                console.log('row: ', r + 1);
-                console.log('col: ', c + 1);
-                console.log('diagonal left');
                 return cell;
             }
         }
@@ -118,9 +109,6 @@ function checkDiagonalRight(state) {
                 && cell === cells[indexOf(r - 1, c + 1)]
                 && cell === cells[indexOf(r - 2, c + 2)]
                 && cell === cells[indexOf(r - 3, c + 3)]) {
-                console.log('row: ', r + 1);
-                console.log('col: ', c + 1);
-                console.log('diagonal right');
                 return cell;
             }
         }
