@@ -43,9 +43,9 @@ export function getScore(state) {
     let score = 0;
     // X is the human player. We attribute a negative score to the human player.
     if (winner === RED) {
-        score = -(1 + getAvailableMoves(state).length);
+        score = -(1 + countEmptyCells(state));
     } else if (winner === YELLOW) {
-        score = 1 + getAvailableMoves(state).length;
+        score = 1 + countEmptyCells(state);
     }
     return score;
 }
@@ -113,4 +113,9 @@ function checkDiagonalRight(state) {
             }
         }
     }
+}
+
+function countEmptyCells(state) {
+    const {cells} = state;
+    return cells.filter(c => !c).length;
 }
