@@ -1,4 +1,4 @@
-##Play the Game
+## Play the Game
 
 https://spencerbrett.github.io/connect4
 
