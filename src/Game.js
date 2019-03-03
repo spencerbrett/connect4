@@ -1,11 +1,18 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { initialState, reducer } from "./game/reducer";
-import { checkWinner, getAvailableMoves, isValidMove, RED, YELLOW } from "./game/rules";
+import React, { useEffect, useState } from 'react';
+import { checkWinner, getAvailableMoves, getScore, isGameOver, isValidMove, makeMove, RED, YELLOW } from "./game/rules";
 import Grid from "./grid/Grid";
 import './Game.css';
+import { createAI } from "./game/ai";
+
+
+const computerPlayer = createAI({ isGameOver, getScore, makeMove, getAvailableMoves, maxDepth: 8 });
+
+const initialGameState = () => {
+    return { cells: Array(42).fill(null), playerTurn: RED }
+};
 
 const Game = () => {
-    const [gameState, dispatch] = useReducer(reducer, initialState());
+    const [gameState, setGameState] = useState(initialGameState());
     const [message, setMessage] = useState('');
     // update message
     useEffect(() => {
@@ -21,8 +28,9 @@ const Game = () => {
     }, [gameState]);
     // computer turn
     useEffect(() => {
-        if (gameState.playerTurn === YELLOW) {
-            dispatch({ type: 'computer' });
+        if (gameState.playerTurn === YELLOW && !isGameOver(gameState)) {
+            const computerMove = computerPlayer.getMove(gameState);
+            setGameState(makeMove(gameState, computerMove));
         }
     }, [gameState.playerTurn]);
 
@@ -31,12 +39,12 @@ const Game = () => {
         if (!isValidMove(gameState, columnIndex) || gameState.playerTurn !== RED) {
             return null;
         }
-        dispatch({ type: 'move', payload: { player: RED, columnIndex } });
+        setGameState(makeMove(gameState, { player: RED, columnIndex }));
     };
 
     const handleNewGameClick = () => {
         setMessage('');
-        dispatch({ type: 'reset' });
+        setGameState(initialGameState());
     };
 
     return (

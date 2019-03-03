@@ -1,4 +1,4 @@
-export function createAI({ isGameOver, getScore, getAvailableMoves, makeMove, maxDepth = 6 }) {
+export function createAI({ isGameOver, getScore, getAvailableMoves, makeMove, maxDepth }) {
 
     function alphaBeta({ state, depth, alpha, beta, maximizingPlayer }) {
         if (depth === 0 || isGameOver(state)) {
