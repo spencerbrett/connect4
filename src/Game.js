@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { checkWinner, getAvailableMoves, getScore, isGameOver, isValidMove, makeMove, RED, YELLOW } from "./game/rules";
+import { checkWinner, getAvailableMoves, isGameOver, isValidMove, makeMove, RED, YELLOW } from "./game/rules";
 import Grid from "./grid/Grid";
 import './Game.css';
-import { createAI } from "./game/ai";
-
-
-const computerPlayer = createAI({ isGameOver, getScore, makeMove, getAvailableMoves, maxDepth: 8 });
+import useWorker from "./hooks/useWorker";
+import aiWorker from "./game/aiWorker";
 
 const initialGameState = () => {
     return { cells: Array(42).fill(null), playerTurn: RED }
@@ -14,6 +12,10 @@ const initialGameState = () => {
 const Game = () => {
     const [gameState, setGameState] = useState(initialGameState());
     const [message, setMessage] = useState('');
+    const worker = useWorker(aiWorker, e => {
+        const computerMove = e.data;
+        setGameState(makeMove(gameState, computerMove));
+    });
     // update message
     useEffect(() => {
         const winner = checkWinner(gameState);
@@ -29,8 +31,7 @@ const Game = () => {
     // computer turn
     useEffect(() => {
         if (gameState.playerTurn === YELLOW && !isGameOver(gameState)) {
-            const computerMove = computerPlayer.getMove(gameState);
-            setGameState(makeMove(gameState, computerMove));
+            worker.postMessage(gameState);
         }
     }, [gameState.playerTurn]);
 
