@@ -112,7 +112,7 @@ export default () => {
     }
 
     function countEmptyCells(state) {
-        const {cells} = state;
+        const { cells } = state;
         return cells.filter(c => !c).length;
     }
 
